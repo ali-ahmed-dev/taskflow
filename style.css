@@ -1,8 +1,15 @@
 
-/* Base */
+/* ========================================
+   Base & Typography
+======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
 :root {
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system,
-        BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color-scheme: light;
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #172033;
+    background: #f5f7fb;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
 }
@@ -16,6 +23,13 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 72px 20px;
+    background:
+        radial-gradient(
+            ellipse at 50% 0,
+            rgba(91, 109, 245, 0.1),
+            transparent 42%
+        ),
+        #f5f7fb;
 }
 
 button,
@@ -23,7 +37,10 @@ input {
     font: inherit;
 }
 
-/* Main Layout */
+/* ========================================
+   App Layout
+======================================== */
+
 .app {
     width: min(100%, 620px);
     margin: 0 auto;
@@ -34,21 +51,94 @@ input {
     text-align: center;
 }
 
-/* Task Panel */
+/* ========================================
+   Header
+======================================== */
+
+.eyebrow {
+    margin: 0 0 10px;
+    color: #606fe5;
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.16em;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(2.5rem, 8vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.065em;
+    line-height: 1;
+}
+
+.description {
+    margin: 14px 0 0;
+    color: #727b8d;
+    font-size: 1rem;
+}
+
+/* ========================================
+   Task Panel
+======================================== */
+
 .task-panel {
     overflow: hidden;
+    border: 1px solid #e8ebf2;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 18px 55px rgba(32, 43, 74, 0.08);
 }
+
+/* ========================================
+   Task Form
+======================================== */
 
 .task-form {
     display: flex;
     gap: 10px;
     padding: 22px;
+    border-bottom: 1px solid #edf0f5;
 }
 
 .task-form input[type="text"] {
     flex: 1;
     min-width: 0;
+    padding: 13px 15px;
+    border: 1px solid #e3e7ef;
+    border-radius: 10px;
+    outline: none;
+    color: #172033;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
 }
+
+.task-form input[type="text"]::placeholder {
+    color: #a0a7b5;
+}
+
+.task-form input[type="text"]:focus {
+    border-color: #6875e8;
+    box-shadow: 0 0 0 3px rgba(104, 117, 232, 0.14);
+}
+
+.add-button {
+    padding: 0 20px;
+    border: 0;
+    border-radius: 10px;
+    background: #5865d9;
+    color: #fff;
+    font-weight: 650;
+    cursor: pointer;
+    transition: background 150ms ease, transform 150ms ease;
+}
+
+.add-button:hover {
+    transform: translateY(-1px);
+    background: #4653c6;
+}
+
+/* ========================================
+   Toolbar & Filters
+======================================== */
 
 .task-toolbar {
     display: flex;
@@ -56,6 +146,13 @@ input {
     justify-content: space-between;
     gap: 16px;
     padding: 16px 22px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.task-count {
+    margin: 0;
+    color: #7d8595;
+    font-size: 0.88rem;
 }
 
 .filters {
@@ -63,7 +160,30 @@ input {
     gap: 4px;
 }
 
-/* Task List */
+.filter-button {
+    padding: 7px 10px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: #7d8595;
+    font-size: 0.84rem;
+    cursor: pointer;
+}
+
+.filter-button:hover {
+    color: #4653c6;
+}
+
+.filter-button.is-active {
+    background: #eef0ff;
+    color: #4653c6;
+    font-weight: 650;
+}
+
+/* ========================================
+   Task List & Items
+======================================== */
+
 .task-section {
     min-height: 110px;
 }
@@ -74,6 +194,9 @@ input {
     list-style: none;
 }
 
+.task-item {
+    border-bottom: 1px solid #edf0f5;
+}
 
 .task-label {
     display: flex;
@@ -87,13 +210,62 @@ input {
     width: 18px;
     height: 18px;
     margin: 0;
+    accent-color: #5865d9;
+    cursor: pointer;
 }
 
 .task-text {
     overflow-wrap: anywhere;
+    color: #343d50;
+    font-size: 0.96rem;
 }
 
-/* Responsive Layout */
+.task-label input:checked + .task-text {
+    color: #9aa1ae;
+    text-decoration: line-through;
+}
+
+/* ========================================
+   Empty State
+======================================== */
+
+.empty-message {
+    margin: 0;
+    padding: 35px 20px;
+    color: #9299a8;
+    font-size: 0.92rem;
+    text-align: center;
+}
+
+.empty-message[hidden] {
+    display: none;
+}
+
+/* ========================================
+   Accessibility & Focus
+======================================== */
+
+.add-button:focus-visible,
+.filter-button:focus-visible,
+.task-label input:focus-visible {
+    outline: 3px solid rgba(88, 101, 217, 0.35);
+    outline-offset: 3px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+}
+
+/* ========================================
+   Responsive Adjustments
+======================================== */
+
 @media (max-width: 480px) {
     body {
         padding: 48px 14px;
@@ -101,6 +273,10 @@ input {
 
     .task-form {
         padding: 16px;
+    }
+
+    .add-button {
+        padding: 0 14px;
     }
 
     .task-toolbar {
