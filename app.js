@@ -28,3 +28,24 @@ function renderTasks() {
 }
 
 renderTasks();
+
+taskForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const text = taskInput.value.trim();
+
+    if (!text) {
+        statusMessage.textContent = "Please enter a task.";
+        return;
+    }
+    const newTask = {
+        id: Date.now(),
+        text: text,
+        completed: false,
+        createdAt: Date.now()
+    };
+    tasks.push(newTask);
+    renderTasks();
+    taskInput.value = "";
+    statusMessage.textContent = "";
+});

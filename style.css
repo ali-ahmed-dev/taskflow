@@ -135,7 +135,11 @@ h1 {
     transform: translateY(-1px);
     background: #4653c6;
 }
-
+#status-message {
+    text-align: center;
+    color: #c2414b;
+    font-size: 0.875rem;
+}
 /* ========================================
    Toolbar & Filters
 ======================================== */
