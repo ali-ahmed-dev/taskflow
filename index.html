@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f7fb">
+    <link rel="stylesheet" href="style.css">
+    <title>TaskFlow</title>
+</head>
+<body>
+    <main class="app">
+        <header class="app-header">
+            <p class="eyebrow">YOUR DAY, IN FLOW</p>
+            <h1>TaskFlow</h1>
+            <p class="description">A little structure goes a long way. What needs doing?</p>
+        </header>
+
+        <section class="task-panel" aria-label="Task manager">
+            <form id="task-form" class="task-form">
+                <label class="sr-only" for="task-input">New task</label>
+                <input
+                    id="task-input"
+                    name="task"
+                    type="text"
+                    placeholder="Add a task..."
+                    autocomplete="off"
+                    required
+                >
+                <button class="add-button" type="submit">Add task</button>
+            </form>
+
+            <div class="task-toolbar">
+                <p id="task-count" class="task-count">0 tasks left</p>
+                <nav class="filters" aria-label="Filter tasks">
+                    <button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+                    <button class="filter-button" type="button" data-filter="active" aria-pressed="false">Active</button>
+                    <button class="filter-button" type="button" data-filter="completed" aria-pressed="false">Completed</button>
+                </nav>
+            </div>
+
+            <section class="task-section" aria-label="Tasks">
+                <ul id="task-list" class="task-list"></ul>
+                <p id="empty-message" class="empty-message">No tasks yet. Add one above to get started.</p>
+            </section>
+        </section>
+
+        <p id="status-message" class="sr-only" role="status" aria-live="polite"></p>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>
