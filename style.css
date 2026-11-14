@@ -48,15 +48,15 @@ input {
     margin: 0 auto;
 }
 
-.app-header {
-    margin-bottom: 32px;
-    text-align: center;
-}
-
 
 /* ========================================
    3. Header
 ======================================== */
+
+.app-header {
+    margin-bottom: 32px;
+    text-align: center;
+}
 
 .eyebrow {
     margin: 0 0 10px;
@@ -220,7 +220,6 @@ h1 {
     box-shadow: 0 0 0 3px rgba(70, 83, 198, 0.15);
 }
 
-/* Clear Completed Button */
 #clear-completed {
     padding: 8px 12px;
     border: 0;
@@ -403,5 +402,17 @@ h1 {
 
     .task-list {
         padding: 0 16px;
+    }
+
+    /* Task Editing on Small Screens */
+
+    .task-list li {
+        flex-wrap: wrap;
+    }
+
+    .task-list input[type="text"] {
+        flex: 0 0 100%;
+        width: 100%;
+        order: -1;
     }
 }
