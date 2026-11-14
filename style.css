@@ -153,6 +153,10 @@ h1 {
     text-align: center;
 }
 
+#status-message:empty {
+    display: none;
+}
+
 
 /* ========================================
    7. Toolbar & Filters
@@ -216,6 +220,25 @@ h1 {
     box-shadow: 0 0 0 3px rgba(70, 83, 198, 0.15);
 }
 
+/* Clear Completed Button */
+#clear-completed {
+    padding: 8px 12px;
+    border: 0;
+    border-radius: 8px;
+    background-color: #fff0f0;
+    color: #c2414b;
+    font-family: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#clear-completed:hover {
+    background-color: #c2414b;
+    color: #ffffff;
+}
+
+
 /* ========================================
    8. Task List & Items
 ======================================== */
@@ -253,7 +276,28 @@ h1 {
 
 
 /* ========================================
-   9. Task Action Buttons
+   9. Task Editing
+======================================== */
+
+.task-list input[type="text"] {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 10px;
+    border: 1px solid #4653c6;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.task-list input[type="text"]:focus-visible {
+    border-color: #4653c6;
+    box-shadow: 0 0 0 3px rgba(70, 83, 198, 0.15);
+}
+
+
+/* ========================================
+   10. Task Action Buttons
 ======================================== */
 
 .task-list button {
@@ -268,7 +312,7 @@ h1 {
     transition: background 0.2s ease, color 0.2s ease;
 }
 
-/* Complete Button */
+/* Complete & Edit Buttons */
 
 .task-list button:not(.delete-button) {
     background: #eef0ff;
@@ -294,7 +338,7 @@ h1 {
 
 
 /* ========================================
-   10. Empty State
+   11. Empty State
 ======================================== */
 
 .empty-message {
@@ -311,7 +355,7 @@ h1 {
 
 
 /* ========================================
-   11. Accessibility & Focus
+   12. Accessibility & Focus
 ======================================== */
 
 .add-button:focus-visible,
@@ -334,7 +378,7 @@ h1 {
 
 
 /* ========================================
-   12. Responsive Adjustments
+   13. Responsive Adjustments
 ======================================== */
 
 @media (max-width: 480px) {
@@ -360,37 +404,4 @@ h1 {
     .task-list {
         padding: 0 16px;
     }
-}
-/* ========================================
-   13. Task Form
-======================================== */
-.task-list input[type="text"] {
-    flex: 1;
-    min-width: 0;
-    padding: 8px 10px;
-    border: 1px solid #4653c6;
-    border-radius: 7px;
-    font-family: inherit;
-    font-size: 0.9rem;
-    outline: none;
-}
-
-/* ========================================
-   14. Clear Completed Button
-======================================== */
-#clear-completed {
-    padding: 8px 12px;
-    border: 0;
-    border-radius: 8px;
-    background-color: #fff0f0;
-    color: #c2414b;
-    font-family: inherit;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-#clear-completed:hover {
-    background-color: #c2414b;
-    color: #ffffff;
 }
