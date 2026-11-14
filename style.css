@@ -1,13 +1,14 @@
 
 /* ========================================
-   Base & Typography
+   1. Base & Typography
 ======================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 :root {
     color-scheme: light;
-    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
     color: #172033;
     background: #f5f7fb;
     font-synthesis: none;
@@ -37,8 +38,9 @@ input {
     font: inherit;
 }
 
+
 /* ========================================
-   App Layout
+   2. App Layout
 ======================================== */
 
 .app {
@@ -51,8 +53,9 @@ input {
     text-align: center;
 }
 
+
 /* ========================================
-   Header
+   3. Header
 ======================================== */
 
 .eyebrow {
@@ -77,20 +80,22 @@ h1 {
     font-size: 1rem;
 }
 
+
 /* ========================================
-   Task Panel
+   4. Task Panel
 ======================================== */
 
 .task-panel {
     overflow: hidden;
     border: 1px solid #e8ebf2;
     border-radius: 20px;
-    background: #fff;
+    background: #ffffff;
     box-shadow: 0 18px 55px rgba(32, 43, 74, 0.08);
 }
 
+
 /* ========================================
-   Task Form
+   5. Task Form
 ======================================== */
 
 .task-form {
@@ -125,7 +130,7 @@ h1 {
     border: 0;
     border-radius: 10px;
     background: #5865d9;
-    color: #fff;
+    color: #ffffff;
     font-weight: 650;
     cursor: pointer;
     transition: background 150ms ease, transform 150ms ease;
@@ -135,13 +140,22 @@ h1 {
     transform: translateY(-1px);
     background: #4653c6;
 }
+
+
+/* ========================================
+   6. Status Message
+======================================== */
+
 #status-message {
-    text-align: center;
+    margin: 12px 0;
     color: #c2414b;
     font-size: 0.875rem;
+    text-align: center;
 }
+
+
 /* ========================================
-   Toolbar & Filters
+   7. Toolbar & Filters
 ======================================== */
 
 .task-toolbar {
@@ -184,8 +198,26 @@ h1 {
     font-weight: 650;
 }
 
+.sort-select {
+    padding: 8px 12px;
+    border: 1px solid #e2e5ee;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #465066;
+    font-family: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sort-select:focus-visible {
+    border-color: #4653c6;
+    box-shadow: 0 0 0 3px rgba(70, 83, 198, 0.15);
+}
+
 /* ========================================
-   Task List & Items
+   8. Task List & Items
 ======================================== */
 
 .task-section {
@@ -198,50 +230,71 @@ h1 {
     list-style: none;
 }
 
-.task-item {
+.task-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 0;
     border-bottom: 1px solid #edf0f5;
 }
 
-.task-label {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    min-height: 58px;
-    cursor: pointer;
-}
-
-.task-label input {
-    width: 18px;
-    height: 18px;
-    margin: 0;
-    accent-color: #5865d9;
-    cursor: pointer;
-}
-
-.task-text {
+.task-list li span {
+    flex: 1;
+    min-width: 0;
     overflow-wrap: anywhere;
     color: #343d50;
     font-size: 0.96rem;
 }
 
-.task-label input:checked + .task-text {
-    color: #9aa1ae;
-    text-decoration: line-through;
-}
-
 .task-list li.completed span {
-    text-decoration: line-through;
     opacity: 0.55;
+    text-decoration: line-through;
 }
 
-
-.delete-button {
-    color: #c2414b;
-
-}
 
 /* ========================================
-   Empty State
+   9. Task Action Buttons
+======================================== */
+
+.task-list button {
+    flex-shrink: 0;
+    padding: 7px 10px;
+    border: none;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 0.84rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Complete Button */
+
+.task-list button:not(.delete-button) {
+    background: #eef0ff;
+    color: #4653c6;
+}
+
+.task-list button:not(.delete-button):hover {
+    background: #4653c6;
+    color: #ffffff;
+}
+
+/* Delete Button */
+
+.task-list .delete-button {
+    background: #fff0f0;
+    color: #c2414b;
+}
+
+.task-list .delete-button:hover {
+    background: #c2414b;
+    color: #ffffff;
+}
+
+
+/* ========================================
+   10. Empty State
 ======================================== */
 
 .empty-message {
@@ -256,13 +309,15 @@ h1 {
     display: none;
 }
 
+
 /* ========================================
-   Accessibility & Focus
+   11. Accessibility & Focus
 ======================================== */
 
 .add-button:focus-visible,
 .filter-button:focus-visible,
-.task-label input:focus-visible {
+.sort-select:focus-visible,
+.task-list button:focus-visible {
     outline: 3px solid rgba(88, 101, 217, 0.35);
     outline-offset: 3px;
 }
@@ -277,8 +332,9 @@ h1 {
     clip-path: inset(50%);
 }
 
+
 /* ========================================
-   Responsive Adjustments
+   12. Responsive Adjustments
 ======================================== */
 
 @media (max-width: 480px) {
