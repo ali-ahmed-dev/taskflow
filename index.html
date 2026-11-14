@@ -29,14 +29,14 @@
             <div class="task-toolbar">
                 <p id="task-count" class="task-count">0 tasks</p>
                 <nav class="filters" aria-label="Filter tasks">
-                    <button class="filter-button is-active" type="button"
-                        data-filter="all" aria-pressed="true">All</button>
+                    <button class="filter-button is-active" type="button" data-filter="all"
+                        aria-pressed="true">All</button>
 
-                    <button class="filter-button" type="button"
-                        data-filter="active" aria-pressed="false">Active</button>
+                    <button class="filter-button" type="button" data-filter="active"
+                        aria-pressed="false">Active</button>
 
-                    <button class="filter-button" type="button"
-                        data-filter="completed" aria-pressed="false">Completed</button>
+                    <button class="filter-button" type="button" data-filter="completed"
+                        aria-pressed="false">Completed</button>
                 </nav>
 
                 <label class="sr-only" for="sort-select">Sort tasks</label>
@@ -44,6 +44,9 @@
                     <option value="newest">Newest first</option>
                     <option value="oldest">Oldest first</option>
                 </select>
+                <button id="clear-completed" type="button">
+                    Clear Completed
+                </button>
             </div>
 
             <section class="task-section" aria-label="Tasks">

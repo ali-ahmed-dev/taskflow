@@ -11,7 +11,6 @@ function saveTasks() {
 }
 
 let currentFilter = "all";
-
 let sortOrder = "newest";
 
 // DOM Elements
@@ -25,6 +24,7 @@ const emptyMessage = document.querySelector("#empty-message");
 const statusMessage = document.querySelector("#status-message");
 
 const filterButtons = document.querySelectorAll("[data-filter]");
+const clearCompletedButton = document.querySelector("#clear-completed");
 
 // Render Tasks
 function renderTasks() {
@@ -65,6 +65,61 @@ function renderTasks() {
       renderTasks();
     });
 
+    // Edit Button
+    const editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.classList.add("edit-button");
+
+    let isEditing = false;
+
+    editButton.addEventListener("click", function () {
+      // Enter Edit Mode
+      if (!isEditing) {
+        isEditing = true;
+
+        const editInput = document.createElement("input");
+        editInput.type = "text";
+        editInput.value = task.text;
+
+        const cancelButton = document.createElement("button");
+        cancelButton.textContent = "Cancel";
+        cancelButton.classList.add("cancel-button");
+
+        taskText.replaceWith(editInput);
+
+        editButton.textContent = "Save";
+        editButton.after(cancelButton);
+
+        editInput.focus();
+
+        // Cancel Editing
+        cancelButton.addEventListener("click", function () {
+          editInput.replaceWith(taskText);
+
+          editButton.textContent = "Edit";
+          cancelButton.remove();
+
+          isEditing = false;
+        });
+
+        return;
+      }
+
+      // Save Changes
+      const editInput = li.querySelector("input");
+      const updatedText = editInput.value.trim();
+
+      if (!updatedText) {
+        editInput.focus();
+        return;
+      }
+
+      task.text = updatedText;
+
+      saveTasks();
+      renderTasks();
+    });
+
     // Delete Button
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
@@ -83,6 +138,7 @@ function renderTasks() {
 
     // Append Elements
     li.appendChild(taskText);
+    li.appendChild(editButton);
     li.appendChild(completeButton);
     li.appendChild(deleteButton);
 
@@ -120,6 +176,7 @@ taskForm.addEventListener("submit", function (event) {
   statusMessage.textContent = "";
 });
 
+// Filter Tasks
 function getFilteredTasks() {
   if (currentFilter === "active") {
     return tasks.filter(function (task) {
@@ -151,6 +208,7 @@ filterButtons.forEach(function (button) {
   });
 });
 
+// Sort Tasks
 sortSelect.addEventListener("change", function () {
   sortOrder = sortSelect.value;
   renderTasks();
@@ -167,3 +225,12 @@ function getSortedTasks() {
     return a.createdAt - b.createdAt;
   });
 }
+
+clearCompletedButton.addEventListener("click", function () {
+    tasks = tasks.filter(function (task) {
+        return !task.completed;
+    });
+
+    saveTasks();
+    renderTasks();
+});

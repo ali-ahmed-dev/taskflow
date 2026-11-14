@@ -361,3 +361,36 @@ h1 {
         padding: 0 16px;
     }
 }
+/* ========================================
+   13. Task Form
+======================================== */
+.task-list input[type="text"] {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 10px;
+    border: 1px solid #4653c6;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+/* ========================================
+   14. Clear Completed Button
+======================================== */
+#clear-completed {
+    padding: 8px 12px;
+    border: 0;
+    border-radius: 8px;
+    background-color: #fff0f0;
+    color: #c2414b;
+    font-family: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#clear-completed:hover {
+    background-color: #c2414b;
+    color: #ffffff;
+}
