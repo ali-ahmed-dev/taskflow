@@ -1,4 +1,14 @@
-const tasks = [];
+let tasks = [];
+
+const storedTasks = localStorage.getItem("tasks");
+
+if (storedTasks !== null) {
+  tasks = JSON.parse(storedTasks);
+}
+
+function saveTasks() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 let currentFilter = "all";
 
@@ -18,23 +28,23 @@ const filterButtons = document.querySelectorAll("[data-filter]");
 
 // Render Tasks
 function renderTasks() {
-    taskList.replaceChildren();
+  taskList.replaceChildren();
 
-    const visibleTasks = getSortedTasks();
+  const visibleTasks = getSortedTasks();
 
-    taskCount.textContent = `${visibleTasks.length} tasks`;
+  taskCount.textContent = `${visibleTasks.length} tasks`;
 
-    if (tasks.length === 0) {
-        emptyMessage.textContent = "No tasks yet. Add one above to get started.";
-        emptyMessage.hidden = false;
-    } else if (visibleTasks.length === 0) {
-        emptyMessage.textContent = "No tasks found in this filter.";
-        emptyMessage.hidden = false;
-    } else {
-        emptyMessage.hidden = true;
-    }
+  if (tasks.length === 0) {
+    emptyMessage.textContent = "No tasks yet. Add one above to get started.";
+    emptyMessage.hidden = false;
+  } else if (visibleTasks.length === 0) {
+    emptyMessage.textContent = "No tasks found in this filter.";
+    emptyMessage.hidden = false;
+  } else {
+    emptyMessage.hidden = true;
+  }
 
-    for (const task of visibleTasks) {
+  for (const task of visibleTasks) {
     const li = document.createElement("li");
 
     if (task.completed) {
@@ -51,6 +61,7 @@ function renderTasks() {
 
     completeButton.addEventListener("click", () => {
       task.completed = !task.completed;
+      saveTasks();
       renderTasks();
     });
 
@@ -66,6 +77,7 @@ function renderTasks() {
 
       tasks.splice(index, 1);
 
+      saveTasks();
       renderTasks();
     });
 
@@ -101,6 +113,7 @@ taskForm.addEventListener("submit", function (event) {
 
   tasks.push(newTask);
 
+  saveTasks();
   renderTasks();
 
   taskInput.value = "";
@@ -124,33 +137,33 @@ function getFilteredTasks() {
 }
 
 filterButtons.forEach(function (button) {
-    button.addEventListener("click", function () {
-        currentFilter = button.dataset.filter;
+  button.addEventListener("click", function () {
+    currentFilter = button.dataset.filter;
 
-        filterButtons.forEach(function (btn) {
-            const isActive = btn.dataset.filter === currentFilter;
+    filterButtons.forEach(function (btn) {
+      const isActive = btn.dataset.filter === currentFilter;
 
-            btn.classList.toggle("is-active", isActive);
-            btn.setAttribute("aria-pressed", isActive);
-        });
-
-        renderTasks();
+      btn.classList.toggle("is-active", isActive);
+      btn.setAttribute("aria-pressed", isActive);
     });
+
+    renderTasks();
+  });
 });
 
 sortSelect.addEventListener("change", function () {
-    sortOrder = sortSelect.value;
-    renderTasks();
+  sortOrder = sortSelect.value;
+  renderTasks();
 });
 
 function getSortedTasks() {
-    const filteredTasks = getFilteredTasks();
+  const filteredTasks = getFilteredTasks();
 
-    return [...filteredTasks].sort(function (a, b) {
-        if (sortOrder === "newest") {
-            return b.createdAt - a.createdAt;
-        }
+  return [...filteredTasks].sort(function (a, b) {
+    if (sortOrder === "newest") {
+      return b.createdAt - a.createdAt;
+    }
 
-        return a.createdAt - b.createdAt;
-    });
+    return a.createdAt - b.createdAt;
+  });
 }
