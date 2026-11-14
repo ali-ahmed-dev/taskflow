@@ -6,10 +6,7 @@ if (storedTasks !== null) {
   tasks = JSON.parse(storedTasks);
 }
 
-function saveTasks() {
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
-
+// Application State
 let currentFilter = "all";
 let sortOrder = "newest";
 
@@ -26,6 +23,48 @@ const statusMessage = document.querySelector("#status-message");
 const filterButtons = document.querySelectorAll("[data-filter]");
 const clearCompletedButton = document.querySelector("#clear-completed");
 
+// Data Management
+function saveTasks() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+// Task Filtering
+function getFilteredTasks() {
+  if (currentFilter === "active") {
+    return tasks.filter(function (task) {
+      return !task.completed;
+    });
+  }
+
+  if (currentFilter === "completed") {
+    return tasks.filter(function (task) {
+      return task.completed;
+    });
+  }
+
+  return tasks;
+}
+
+// Task Sorting
+function getSortedTasks() {
+  const filteredTasks = getFilteredTasks();
+
+  return [...filteredTasks].sort(function (a, b) {
+    if (sortOrder === "newest") {
+      return b.createdAt - a.createdAt;
+    }
+
+    return a.createdAt - b.createdAt;
+  });
+}
+
+// Focus Management
+function focusTaskButton(taskId, selector) {
+  const taskItem = taskList.querySelector(`[data-task-id="${taskId}"]`);
+
+  taskItem?.querySelector(selector)?.focus();
+}
+
 // Render Tasks
 function renderTasks() {
   taskList.replaceChildren();
@@ -36,9 +75,11 @@ function renderTasks() {
 
   if (tasks.length === 0) {
     emptyMessage.textContent = "No tasks yet. Add one above to get started.";
+
     emptyMessage.hidden = false;
   } else if (visibleTasks.length === 0) {
     emptyMessage.textContent = "No tasks found in this filter.";
+
     emptyMessage.hidden = false;
   } else {
     emptyMessage.hidden = true;
@@ -46,6 +87,7 @@ function renderTasks() {
 
   for (const task of visibleTasks) {
     const li = document.createElement("li");
+    li.dataset.taskId = task.id;
 
     if (task.completed) {
       li.classList.add("completed");
@@ -54,16 +96,6 @@ function renderTasks() {
     // Task Text
     const taskText = document.createElement("span");
     taskText.textContent = task.text;
-
-    // Complete Button
-    const completeButton = document.createElement("button");
-    completeButton.textContent = task.completed ? "Completed" : "Complete";
-
-    completeButton.addEventListener("click", () => {
-      task.completed = !task.completed;
-      saveTasks();
-      renderTasks();
-    });
 
     // Edit Button
     const editButton = document.createElement("button");
@@ -92,6 +124,19 @@ function renderTasks() {
 
         editInput.focus();
 
+        // Keyboard Support
+        editInput.addEventListener("keydown", function (event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            editButton.click();
+          }
+
+          if (event.key === "Escape") {
+            event.preventDefault();
+            cancelButton.click();
+          }
+        });
+
         // Cancel Editing
         cancelButton.addEventListener("click", function () {
           editInput.replaceWith(taskText);
@@ -100,6 +145,7 @@ function renderTasks() {
           cancelButton.remove();
 
           isEditing = false;
+          editButton.focus();
         });
 
         return;
@@ -111,6 +157,7 @@ function renderTasks() {
 
       if (!updatedText) {
         editInput.focus();
+        statusMessage.textContent = "Task cannot be empty.";
         return;
       }
 
@@ -118,6 +165,23 @@ function renderTasks() {
 
       saveTasks();
       renderTasks();
+
+      focusTaskButton(task.id, ".edit-button");
+    });
+
+    // Complete Button
+    const completeButton = document.createElement("button");
+    completeButton.textContent = task.completed ? "Completed" : "Complete";
+
+    completeButton.classList.add("complete-button");
+
+    completeButton.addEventListener("click", function () {
+      task.completed = !task.completed;
+
+      saveTasks();
+      renderTasks();
+
+      focusTaskButton(task.id, ".complete-button");
     });
 
     // Delete Button
@@ -130,7 +194,9 @@ function renderTasks() {
         return item.id === task.id;
       });
 
-      tasks.splice(index, 1);
+      if (index !== -1) {
+        tasks.splice(index, 1);
+      }
 
       saveTasks();
       renderTasks();
@@ -173,26 +239,19 @@ taskForm.addEventListener("submit", function (event) {
   renderTasks();
 
   taskInput.value = "";
+  taskInput.focus();
+
   statusMessage.textContent = "";
 });
 
+// Prevent Repeated Enter Key Submission
+taskInput.addEventListener("keydown", function (event) {
+  if (event.key === "Enter" && event.repeat) {
+    event.preventDefault();
+  }
+});
+
 // Filter Tasks
-function getFilteredTasks() {
-  if (currentFilter === "active") {
-    return tasks.filter(function (task) {
-      return !task.completed;
-    });
-  }
-
-  if (currentFilter === "completed") {
-    return tasks.filter(function (task) {
-      return task.completed;
-    });
-  }
-
-  return tasks;
-}
-
 filterButtons.forEach(function (button) {
   button.addEventListener("click", function () {
     currentFilter = button.dataset.filter;
@@ -214,23 +273,12 @@ sortSelect.addEventListener("change", function () {
   renderTasks();
 });
 
-function getSortedTasks() {
-  const filteredTasks = getFilteredTasks();
-
-  return [...filteredTasks].sort(function (a, b) {
-    if (sortOrder === "newest") {
-      return b.createdAt - a.createdAt;
-    }
-
-    return a.createdAt - b.createdAt;
-  });
-}
-
+// Clear Completed Tasks
 clearCompletedButton.addEventListener("click", function () {
-    tasks = tasks.filter(function (task) {
-        return !task.completed;
-    });
+  tasks = tasks.filter(function (task) {
+    return !task.completed;
+  });
 
-    saveTasks();
-    renderTasks();
+  saveTasks();
+  renderTasks();
 });
